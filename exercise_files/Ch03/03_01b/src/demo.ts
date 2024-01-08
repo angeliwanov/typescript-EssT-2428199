@@ -1,16 +1,15 @@
 type ContactName = string;
 
-enum ContactStatus {
-    Active = "active",
-    Inactive = "inactive",
-    New = "new"
-}
+type ContactStatus =  "active" | "inactive" | "new";
+
+type ContactBirthDate = Date | number | string;
 
 interface Contact {
     id: number;
     name: ContactName;
-    birthDate?: Date;
+    birthDate?: ContactBirthDate;
     status?: ContactStatus;
+    email?: string;
 }
 
 interface Address {
@@ -20,6 +19,8 @@ interface Address {
     region: string;
     postalCode: string;
 }
+
+type AddressableContact = Contact & Address;
 
 function getBirthDate(contact: Contact) {
     if (typeof contact.birthDate === "number") {
@@ -35,5 +36,29 @@ function getBirthDate(contact: Contact) {
 
 let primaryContact: Contact = {
     id: 12345,
-    name: "Jamie Johnson"
+    name: "Jamie Johnson",
+    status: "active", 
 }
+
+type ContactFields = keyof Contact;
+
+const field: ContactFields = "email";
+
+// function getValue(source, property: keyof Contact) {
+//     return source[property];
+// }
+
+const contact: Contact = { 
+    id: 12345,
+    name: "Jamie Johnson",
+    status: "active",
+    email: "dfdj"
+}
+
+function getValue<T>(source: T, property: keyof T) { 
+    return source[property];
+}
+
+const value = getValue(contact, "status")
+const value2 = getValue({min: 1, max: 2}, "min")
+console.log(value)
