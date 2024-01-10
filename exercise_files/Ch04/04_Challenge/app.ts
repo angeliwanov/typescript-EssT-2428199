@@ -1,6 +1,8 @@
 function query<T>(
     items: T[],
-    query: any // <--- replace this!
+    query: {
+        [key in keyof T]?: (val: T[key]) => boolean
+    } // <--- replace this!
 ) {
     return items.filter(item => {
         // iterate through each of the item's properties
@@ -29,3 +31,22 @@ const matches = query(
         name: name => name === "Angie",
         age: age => age > 30
     })
+
+
+    class Foods {
+        constuctor(root, data) {
+          this.root = root;
+          this.data = data;
+        }
+      
+        render() {
+          for (let el of this.data) {
+            let img = document.createElement("img");
+            img.setAttribute("src") = el.image;
+            this.root.appendChild(img);
+          }
+        }
+      }
+      
+      let int = new Food(rootElement, foodData);
+      int.render(); 
